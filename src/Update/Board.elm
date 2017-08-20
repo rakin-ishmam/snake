@@ -34,7 +34,7 @@ updateSnake m =
                 ( m, Cmd.none )
 
             Just pos ->
-                if (isBlockedPos pos m.board) then
+                if (isBlockedPos pos m.board) || (Snake.hasBody pos m.snake) then
                     ( { m | snake = Snake.die m.snake }, Cmd.none )
                 else
                     ( { m | snake = Snake.forward m.snake }, Cmd.none )
