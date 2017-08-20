@@ -1,22 +1,74 @@
-module Data.Snake exposing (Snake, init, addHead, hasBody, addTail, forward, updateDir)
+module Data.Snake
+    exposing
+        ( Snake
+        , init
+        , addHead
+        , hasBody
+        , addTail
+        , forward
+        , updateDir
+        , nextHeadPos
+        , die
+        , isAlive
+        )
 
 import Data.Const as Const
-import Data.Pos as Pos
+import Data.Pos as Pos exposing (Pos)
 import Data.LinkedList as LinkedList
-import Array
 
 
 type alias Snake =
     { body : LinkedList.List Pos.Pos
     , dir : Const.Direction
+    , status : Status
     }
+
+
+type Status
+    = Live
+    | Die
 
 
 init : Snake
 init =
     { body = LinkedList.init
     , dir = Const.Left
+    , status = Live
     }
+
+
+die : Snake -> Snake
+die s =
+    { s | status = Die }
+
+
+isAlive : Snake -> Bool
+isAlive s =
+    case s.status of
+        Live ->
+            True
+
+        Die ->
+            False
+
+
+headPos : Snake -> Maybe Pos
+headPos s =
+    LinkedList.leftMost s.body
+
+
+nextHeadPos : Snake -> Maybe Pos
+nextHeadPos s =
+    let
+        hpos =
+            headPos s
+    in
+        case hpos of
+            Nothing ->
+                Nothing
+
+            Just p ->
+                Just <| Pos.forward s.dir p
 
 
 updateDir : Snake -> Const.Direction -> Snake
@@ -54,10 +106,10 @@ hasBody p s =
 forward : Snake -> Snake
 forward s =
     let
-        head =
-            LinkedList.leftMost s.body
+        nhead =
+            nextHeadPos s
     in
-        case head of
+        case nhead of
             Nothing ->
                 s
 
@@ -65,8 +117,5 @@ forward s =
                 let
                     nbody =
                         LinkedList.moveLeft s.body
-
-                    nhead =
-                        Pos.forward s.dir pos
                 in
-                    addHead { s | body = nbody } nhead
+                    addHead { s | body = nbody } pos
