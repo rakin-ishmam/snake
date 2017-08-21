@@ -9,6 +9,7 @@ type Linked a
 type alias List a =
     { lTor : Linked a
     , rTol : Linked a
+    , length : Int
     }
 
 
@@ -16,6 +17,7 @@ init : List a
 init =
     { lTor = Empty
     , rTol = Empty
+    , length = 0
     }
 
 
@@ -101,6 +103,7 @@ addRight : a -> List a -> List a
 addRight v l =
     { lTor = addRightLtoR v l.lTor
     , rTol = addRightRtoL v l.rTol
+    , length = l.length + 1
     }
 
 
@@ -108,6 +111,7 @@ addLeft : a -> List a -> List a
 addLeft v l =
     { lTor = addLeftLtoR v l.lTor
     , rTol = addLeftRtoL v l.rTol
+    , length = l.length + 1
     }
 
 
@@ -143,6 +147,7 @@ moveLeftLtoR pre cur =
 
 moveLeft : List a -> List a
 moveLeft l =
-    { lTor = moveLeftLtoR Empty l.lTor
-    , rTol = moveLeftRtoL l.rTol
+    { l
+        | lTor = moveLeftLtoR Empty l.lTor
+        , rTol = moveLeftRtoL l.rTol
     }

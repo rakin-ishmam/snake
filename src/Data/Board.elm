@@ -27,6 +27,16 @@ type alias Board =
     }
 
 
+countEmptyCell : Board -> Int
+countEmptyCell b =
+    let
+        flt =
+            \x -> x.cellType == Const.Empty
+    in
+        List.length <|
+            List.filter flt b.cells
+
+
 init : Int -> Int -> List Cell -> Board
 init dimension len cells =
     { cells = cells

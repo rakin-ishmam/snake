@@ -9,3 +9,4 @@ type Msg
     | Direction Direction
     | NoOp
     | Reload
+    | RandFood Int

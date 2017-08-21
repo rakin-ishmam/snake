@@ -95,8 +95,13 @@ convColor row column board =
 
         isSnake =
             DSnake.hasBody pos board.snake
+
+        isFood =
+            MBoard.hasFood pos board
     in
         if isSnake then
+            Const.Red
+        else if isFood then
             Const.Red
         else
             case bpos of

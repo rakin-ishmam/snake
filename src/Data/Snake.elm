@@ -10,6 +10,7 @@ module Data.Snake
         , nextHeadPos
         , die
         , isAlive
+        , length
         )
 
 import Data.Const as Const
@@ -84,6 +85,11 @@ addHead snake pos =
 addTail : Snake -> Pos.Pos -> Snake
 addTail snake pos =
     { snake | body = LinkedList.addRight pos snake.body }
+
+
+length : Snake -> Int
+length s =
+    s.body.length
 
 
 hasBody : Pos.Pos -> Snake -> Bool

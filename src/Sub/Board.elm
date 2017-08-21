@@ -10,7 +10,7 @@ sub : Sub Msg
 sub =
     Sub.batch
         [ Keyboard.downs toMsg
-        , Time.every Time.second Msg.Tick
+        , Time.every (Time.inMilliseconds 200) Msg.Tick
         ]
 
 
